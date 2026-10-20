@@ -1,0 +1,6 @@
+@CoTuongOnline_HostAddress = http://localhost:5095
+
+GET {{CoTuongOnline_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
