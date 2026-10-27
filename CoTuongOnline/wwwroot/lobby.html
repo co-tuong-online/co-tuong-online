@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <title>Sảnh · Cờ Tướng Online</title>
+</head>
+<body>
+  <main class="page">
+    <div class="greeting">
+      <h1 id="greeting">Chào bạn</h1>
+      <p>Tạo phòng rồi gửi mã cho bạn bè, hoặc vào một phòng đang chờ.</p>
+    </div>
+
+    <div id="resumeBanner" class="resume-banner hidden" style="margin-bottom:22px"></div>
+
+    <div class="lobby-grid">
+      <div class="stack-col">
+        <section class="panel">
+          <div class="panel-title"><h2>Chơi với bạn</h2></div>
+          <div class="stack">
+            <button class="btn primary big" id="createRoomBtn">Tạo phòng mới</button>
+            <div>
+              <p class="muted" style="margin-bottom:8px">Có mã phòng 6 số? Nhập vào đây:</p>
+              <form class="row" id="joinForm">
+                <div id="joinCode"></div>
+                <button class="btn" type="submit">Vào phòng</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><h2>Chơi với máy</h2></div>
+          <div class="stack">
+            <div>
+              <p class="muted" style="margin-bottom:8px">Độ khó</p>
+              <div class="segmented" id="aiLevel">
+                <button type="button" data-value="EASY" aria-pressed="true">Dễ</button>
+                <button type="button" data-value="HARD" aria-pressed="false">Khó</button>
+              </div>
+            </div>
+            <div>
+              <p class="muted" style="margin-bottom:8px">Bạn cầm quân</p>
+              <div class="segmented" id="aiColor">
+                <button type="button" data-value="red" aria-pressed="true">Đỏ, đi trước</button>
+                <button type="button" data-value="black" aria-pressed="false">Đen</button>
+                <button type="button" data-value="random" aria-pressed="false">Ngẫu nhiên</button>
+              </div>
+            </div>
+            <div class="row">
+              <button class="btn gold" id="startAiBtn">Bắt đầu ván với máy</button>
+              <a class="btn ghost" href="/saved-games.html">Ván đã lưu</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="stack-col">
+        <section class="panel">
+          <div class="panel-title"><h2>Phòng đang chờ</h2><span class="muted" id="roomCount"></span></div>
+          <div id="roomList" class="room-list"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-title"><h3>Đang online</h3><span class="muted" id="onlineCount"></span></div>
+          <div id="onlineList" class="online-list"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="/lib/signalr/signalr.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/ws.js"></script>
+  <script src="/js/board.js"></script>
+  <script src="/js/pages/room-config.js"></script>
+  <script src="/js/pages/lobby.js"></script>
+</body>
+</html>

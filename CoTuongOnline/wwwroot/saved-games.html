@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <title>Ván đã lưu · Cờ Tướng Online</title>
+</head>
+<body>
+  <main class="page">
+    <div class="row" style="margin-bottom:22px">
+      <div class="grow greeting">
+        <h1>Ván đã lưu</h1>
+        <p style="margin:0">Các ván đánh với máy bạn đã lưu lại. Chơi tiếp đến hết thì bản lưu tự xoá.</p>
+      </div>
+      <a class="btn gold" href="/ai-game.html">Ván mới với máy</a>
+    </div>
+    <div id="savedList" class="saved-grid"></div>
+  </main>
+
+  <script src="/lib/signalr/signalr.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/ws.js"></script>
+  <script src="/js/board.js"></script>
+  <script src="/js/pages/saved-games.js"></script>
+</body>
+</html>

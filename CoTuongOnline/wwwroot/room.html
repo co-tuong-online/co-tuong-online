@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <title>Phòng chơi · Cờ Tướng Online</title>
+</head>
+<body>
+  <main class="page" style="max-width:1420px">
+    <div id="fatal" class="hidden" style="max-width:520px;margin:60px auto">
+      <div class="panel stack">
+        <h2>Không vào được phòng</h2>
+        <p class="muted" id="fatalMsg"></p>
+        <div class="row"><a class="btn primary" href="/lobby.html">Về sảnh</a></div>
+      </div>
+    </div>
+
+    <div class="game-layout" id="gameLayout">
+      <!-- Cột trái: người chơi, đồng hồ, nước đi -->
+      <aside class="side left">
+        <div class="row">
+          <h2 style="margin:0" class="grow">Phòng <span class="mono-num" id="roomCodeTitle"></span></h2>
+          <span class="badge" id="roomStatus"></span>
+        </div>
+        <div class="player-card" id="topPlayer"></div>
+        <div class="player-card" id="bottomPlayer"></div>
+        <div class="offline-banner hidden" id="offlineBanner"></div>
+        <div class="status-line" id="statusLine">Đang tải phòng…</div>
+        <section>
+          <h3 style="margin-bottom:8px">Nước đi</h3>
+          <div class="move-list" id="moveList"></div>
+        </section>
+        <div class="row">
+          <button class="btn danger small hidden" id="resignBtn">Đầu hàng</button>
+          <button class="btn small" id="leaveBtn">Rời phòng</button>
+          <span class="grow"></span>
+          <button class="btn ghost small" id="styleBtn" title="Đổi kiểu chữ trên quân cờ"></button>
+          <button class="btn ghost small" id="soundBtn"></button>
+        </div>
+      </aside>
+
+      <!-- Giữa: bàn cờ + lớp phủ phòng chờ -->
+      <div class="board-col">
+        <div id="board"></div>
+        <div class="board-overlay hidden" id="waitingOverlay">
+          <div class="waiting-card" id="waitingCard"></div>
+        </div>
+      </div>
+
+      <!-- Cột phải: video + chat -->
+      <aside class="side right">
+        <section class="panel" id="videoPanel">
+          <div class="panel-title"><h3>Gọi video</h3><span class="badge" id="callState">Chưa gọi</span></div>
+          <div class="video-box">
+            <video id="remoteVideo" autoplay playsinline></video>
+            <div class="placeholder" id="videoPlaceholder">Gọi cho đối thủ để thấy nhau trong lúc đánh.</div>
+            <div class="local hidden" id="localWrap"><video id="localVideo" autoplay playsinline muted></video></div>
+          </div>
+          <div class="row" style="margin-top:12px">
+            <button class="btn gold small" id="callBtn">Gọi video</button>
+            <button class="btn small hidden" id="micBtn">Tắt mic</button>
+            <button class="btn small hidden" id="camBtn">Tắt camera</button>
+            <button class="btn danger small hidden" id="hangupBtn">Kết thúc</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><h3>Trò chuyện</h3></div>
+          <div class="chat">
+            <div class="chat-log" id="chatLog" aria-live="polite"></div>
+            <form class="chat-form" id="chatForm">
+              <input class="input" id="chatInput" maxlength="500" placeholder="Nhập tin nhắn…" autocomplete="off">
+              <button class="btn" type="submit">Gửi</button>
+            </form>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script src="/lib/signalr/signalr.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/ws.js"></script>
+  <script src="/js/board.js"></script>
+  <script src="/js/pages/room-config.js"></script>
+  <script src="/js/video.js"></script>
+  <script src="/js/pages/room.js"></script>
+</body>
+</html>

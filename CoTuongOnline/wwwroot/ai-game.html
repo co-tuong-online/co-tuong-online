@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <title>Chơi với máy · Cờ Tướng Online</title>
+</head>
+<body>
+  <main class="page" style="max-width:1300px">
+    <!-- Chọn ván mới -->
+    <section id="setup" class="hidden" style="max-width:560px;margin:20px auto">
+      <div class="panel stack">
+        <h2>Ván mới với máy</h2>
+        <div>
+          <p class="muted" style="margin-bottom:8px">Độ khó</p>
+          <div class="segmented" id="aiLevel">
+            <button type="button" data-value="EASY">Dễ: máy hay sơ hở</button>
+            <button type="button" data-value="HARD">Khó: máy tính trước nhiều nước</button>
+          </div>
+        </div>
+        <div>
+          <p class="muted" style="margin-bottom:8px">Bạn cầm quân</p>
+          <div class="segmented" id="aiColor">
+            <button type="button" data-value="red">Đỏ, đi trước</button>
+            <button type="button" data-value="black">Đen</button>
+            <button type="button" data-value="random">Ngẫu nhiên</button>
+          </div>
+        </div>
+        <div class="row"><button class="btn primary big" id="createBtn">Bắt đầu</button><a class="btn ghost" href="/saved-games.html">Mở ván đã lưu</a></div>
+      </div>
+    </section>
+
+    <div class="game-layout two hidden" id="gameLayout">
+      <div class="board-col"><div id="board"></div></div>
+      <aside class="side">
+        <div>
+          <h2 style="margin-bottom:2px" id="gameTitle">Đánh với máy</h2>
+          <p class="muted" style="margin:0" id="gameSub"></p>
+        </div>
+        <div class="player-card" id="aiCard"></div>
+        <div class="player-card" id="meCard"></div>
+        <div class="status-line" id="statusLine"></div>
+        <section>
+          <h3 style="margin-bottom:8px">Nước đi</h3>
+          <div class="move-list" id="moveList"></div>
+        </section>
+        <div class="row">
+          <button class="btn" id="undoBtn">Đi lại</button>
+          <button class="btn" id="saveBtn">Lưu ván</button>
+          <button class="btn danger" id="resignBtn">Đầu hàng</button>
+        </div>
+        <div class="row">
+          <a class="btn ghost small" href="/ai-game.html">Ván mới</a>
+          <span class="grow"></span>
+          <button class="btn ghost small" id="styleBtn"></button>
+          <button class="btn ghost small" id="soundBtn"></button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="/lib/signalr/signalr.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/ws.js"></script>
+  <script src="/js/board.js"></script>
+  <script src="/js/pages/room-config.js"></script>
+  <script src="/js/pages/ai-game.js"></script>
+</body>
+</html>

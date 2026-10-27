@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <title>Tạo tài khoản · Cờ Tướng Online</title>
+</head>
+<body>
+  <div class="auth-shell">
+    <aside class="auth-art">
+      <div class="big-glyph" aria-hidden="true">帥</div>
+      <blockquote><b>Một nước sai, cả ván thua.</b> Đăng nhập để vào phòng cùng bạn bè, gọi video trong lúc đánh, hoặc luyện với máy.</blockquote>
+    </aside>
+    <main class="auth-main">
+      <div class="auth-card">
+        <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">帥</span><span class="brand-name">Cờ Tướng Online</span></a>
+
+        <section id="stepForm">
+          <h1>Tạo tài khoản</h1>
+          <p class="muted">Bạn sẽ nhận mã xác nhận 6 số qua email.</p>
+          <form id="registerForm" class="stack" novalidate>
+            <div id="formMsg" class="hidden"></div>
+            <label class="field"><span>Email</span>
+              <input class="input" name="email" type="email" autocomplete="email" required autofocus></label>
+            <label class="field"><span>Biệt danh</span>
+              <input class="input" name="nickname" autocomplete="nickname" maxlength="20" required>
+              <div class="hint">3–20 ký tự: chữ không dấu, số hoặc dấu gạch dưới. Bạn bè tìm bạn bằng tên này.</div></label>
+            <label class="field"><span>Mật khẩu</span>
+              <div class="pw-wrap">
+                <input class="input" name="password" type="password" autocomplete="new-password" required>
+                <button type="button" class="btn ghost small pw-toggle" data-toggle-pw>Hiện</button>
+              </div>
+              <div class="hint">Ít nhất 8 ký tự, có cả chữ và số.</div></label>
+            <label class="field"><span>Nhập lại mật khẩu</span>
+              <input class="input" name="confirm" type="password" autocomplete="new-password" required></label>
+            <button class="btn primary big block" type="submit">Gửi mã xác nhận</button>
+          </form>
+          <p class="switch">Đã có tài khoản? <a href="/login.html">Đăng nhập</a></p>
+        </section>
+
+        <section id="stepOtp" class="hidden">
+          <h1>Nhập mã xác nhận</h1>
+          <p class="muted">Mã 6 số đã gửi tới <b id="otpEmail"></b>. Mã có hiệu lực 5 phút.</p>
+          <div class="stack">
+            <div id="otpMsg" class="hidden"></div>
+            <div id="otpBoxes"></div>
+            <button class="btn primary big block" id="verifyBtn">Xác nhận và vào chơi</button>
+            <div class="row"><button class="btn ghost small" id="resendBtn">Gửi lại mã</button><span class="grow"></span><button class="btn ghost small" id="backBtn">Sửa thông tin</button></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/pages/auth-pages.js"></script>
+  <script>AuthPages.register();</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <title>Cờ Tướng Online · Nhóm SOS</title>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">帥</span><span class="brand-name">Cờ Tướng Online</span></a>
+    <div class="spacer"></div>
+    <div class="row" id="authLinks">
+      <a class="btn ghost" href="/login.html">Đăng nhập</a>
+      <a class="btn primary" href="/register.html">Tạo tài khoản</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Bày bàn cờ, gửi mã phòng, đánh ngay.</h1>
+        <p class="lead">Mời bạn vào phòng bằng mã 6 số hoặc đường link, vừa đánh vừa gọi video. Không có ai rảnh thì luyện với máy ở hai mức Dễ và Khó.</p>
+        <div class="row" id="heroActions">
+          <a class="btn primary big" href="/register.html">Tạo tài khoản miễn phí</a>
+          <a class="btn big" href="/login.html">Tôi đã có tài khoản</a>
+        </div>
+        <p class="notation-ticker" id="ticker" aria-live="off"></p>
+      </div>
+      <div class="xq-wrap" id="heroBoard"></div>
+    </section>
+
+    <section class="facts">
+      <div>
+        <h3>Phòng riêng cho hai người</h3>
+        <p>Chủ phòng chọn màu quân, tổng thời gian và thời gian mỗi nước. Server kiểm tra mọi nước đi và tự xử hết giờ.</p>
+      </div>
+      <div>
+        <h3>Chat và gọi video trong ván</h3>
+        <p>Khung chat và cuộc gọi nằm cạnh bàn cờ, ván bắt đầu hay kết thúc cũng không bị ngắt.</p>
+      </div>
+      <div>
+        <h3>Lưu ván, chơi tiếp sau</h3>
+        <p>Đang đánh với máy mà phải đi? Lưu lại và tiếp tục đúng thế cờ đó vào lúc khác.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/board.js"></script>
+  <script src="/js/pages/landing.js"></script>
+</body>
+</html>

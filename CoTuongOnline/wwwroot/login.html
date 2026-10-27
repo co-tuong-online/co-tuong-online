@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <title>Đăng nhập · Cờ Tướng Online</title>
+</head>
+<body>
+  <div class="auth-shell">
+    <aside class="auth-art">
+      <div class="big-glyph" aria-hidden="true">帥</div>
+      <blockquote><b>Một nước sai, cả ván thua.</b> Đăng nhập để vào phòng cùng bạn bè, gọi video trong lúc đánh, hoặc luyện với máy.</blockquote>
+    </aside>
+    <main class="auth-main">
+      <div class="auth-card">
+        <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">帥</span><span class="brand-name">Cờ Tướng Online</span></a>
+        <h1>Đăng nhập</h1>
+        <p class="muted">Dùng email hoặc biệt danh đã đăng ký.</p>
+        <form id="loginForm" class="stack" novalidate>
+          <div id="formMsg" class="hidden"></div>
+          <label class="field"><span>Email hoặc biệt danh</span>
+            <input class="input" name="login" autocomplete="username" required autofocus></label>
+          <label class="field"><span>Mật khẩu</span>
+            <div class="pw-wrap">
+              <input class="input" name="password" type="password" autocomplete="current-password" required>
+              <button type="button" class="btn ghost small pw-toggle" data-toggle-pw>Hiện</button>
+            </div></label>
+          <div class="row"><span class="grow"></span><a href="/forgot-password.html">Quên mật khẩu?</a></div>
+          <button class="btn primary big block" type="submit">Đăng nhập</button>
+        </form>
+        <p class="switch">Chưa có tài khoản? <a href="/register.html" id="toRegister">Tạo tài khoản</a></p>
+      </div>
+    </main>
+  </div>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/pages/auth-pages.js"></script>
+  <script>AuthPages.login();</script>
+</body>
+</html>
