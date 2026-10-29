@@ -83,6 +83,7 @@ public sealed class AiGameService
             SavedGameId = savedGameId,
             SavedGameName = savedName
         };
+        if (match.Outcome is MatchOutcome over) Finish(game, over.Result, over.Reason); // thế cờ nạp vào đã kết thúc
 
         using (var scope = _scopes.CreateScope())
         {
@@ -159,19 +160,35 @@ public sealed class AiGameService
         }
 
         MoveOutcome? outcome = null;
+        bool finishedWithoutMove = false;
         lock (game.Sync)
         {
             game.Thinking = false;
             // Ván có thể đã bị đầu hàng/đi lại trong lúc máy nghĩ
-            if (game.IsPlaying && game.Match.Ply == plyBefore && !move.IsNone)
+            if (game.IsPlaying && game.Match.Ply == plyBefore)
             {
-                outcome = game.Match.Apply(move, (long)(DateTime.UtcNow - started).TotalMilliseconds);
-                game.TurnStartedAt = DateTime.UtcNow;
-                game.LastActivity = DateTime.UtcNow;
-                if (outcome.Ended is not null) Finish(game, outcome.Ended.Result, outcome.Ended.Reason);
+                if (move.IsNone || game.Match.Position.ValidateMove(move) is not null)
+                {
+                    // Máy không có nước hợp lệ → ván phải kết thúc theo luật (máy bị chiếu bí / hết nước)
+                    var legal = game.Match.Position.GenerateLegalMoves();
+                    if (legal.Count > 0) move = legal[0];
+                    else if (game.Match.RefreshOutcome() is MatchOutcome ended)
+                    {
+                        Finish(game, ended.Result, ended.Reason);
+                        finishedWithoutMove = true;
+                    }
+                }
+                if (!finishedWithoutMove && !move.IsNone)
+                {
+                    outcome = game.Match.Apply(move, (long)(DateTime.UtcNow - started).TotalMilliseconds);
+                    game.TurnStartedAt = DateTime.UtcNow;
+                    game.LastActivity = DateTime.UtcNow;
+                    if (outcome.Ended is not null) Finish(game, outcome.Ended.Result, outcome.Ended.Reason);
+                }
             }
         }
         if (outcome?.Record is not null) await AfterMoveAsync(game, outcome.Record);
+        else if (finishedWithoutMove) await PersistAsync(game);
         return new AiMoveResult(outcome?.Record, ToDto(game));
     }
 
@@ -263,7 +280,27 @@ public sealed class AiGameService
             game = _games.GetOrAdd(game.Id, game);
         }
         if (game.UserId != userId) throw OnlineGameService.NotPlayer();
+        await ReconcileAsync(game);
         return game;
+    }
+
+    /// <summary>
+    /// Tự sửa trạng thái lệch: thế cờ đã kết thúc theo luật (chiếu bí, hết nước, hoà) nhưng ván vẫn ghi "đang chơi"
+    /// (ví dụ ván nạp lại từ database ngay sau nước chiếu bí). Không sửa thì ván bị "đơ": không ai đi được.
+    /// </summary>
+    private async Task ReconcileAsync(AiGame game)
+    {
+        MatchOutcome? outcome;
+        lock (game.Sync)
+        {
+            if (!game.IsPlaying || game.Thinking) return;
+            outcome = game.Match.RefreshOutcome();
+            if (outcome is null) return;
+            Finish(game, outcome.Result, outcome.Reason);
+        }
+        _logger.LogWarning("Ván máy {Id} đã kết thúc theo luật nhưng còn ghi PLAYING → đã sửa thành {Result} ({Reason})",
+            game.Id, outcome.Result, outcome.Reason);
+        await PersistAsync(game);
     }
 
     private async Task<AiGame?> LoadFromDatabaseAsync(long gameId)

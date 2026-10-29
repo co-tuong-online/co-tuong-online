@@ -19,6 +19,7 @@ public static class AiLevels
 public sealed class XiangqiAi
 {
     private const int Mate = 100_000;
+    private const int MaxPly = 64; // giới hạn độ sâu đệ quy (chống chuỗi chiếu qua chiếu lại vô tận)
     private const int Inf = 1_000_000;
 
     private static readonly int[] PieceValue = { 0, 0, 200, 200, 400, 900, 450, 100 };
@@ -101,7 +102,16 @@ public sealed class XiangqiAi
         var legal = pos.GenerateLegalMoves();
         if (legal.Count == 0) return Move.None;
         if (legal.Count == 1) return legal[0];
-        return level == AiLevels.Hard ? SearchHard(pos, legal, timeLimitMs) : PickEasy(pos, legal);
+        try
+        {
+            var move = level == AiLevels.Hard ? SearchHard(pos, legal, timeLimitMs) : PickEasy(pos, legal);
+            return legal.Contains(move) ? move : legal[0];
+        }
+        catch (Exception) when (legal.Count > 0)
+        {
+            // Không bao giờ để lỗi trong lúc tìm nước làm treo ván: đi tạm một nước hợp lệ
+            return legal[_random.Next(legal.Count)];
+        }
     }
 
     // ------------------------------------------------------------------ EASY
@@ -172,9 +182,11 @@ public sealed class XiangqiAi
         if ((++_nodes & 1023) == 0 && _clock.ElapsedMilliseconds > _deadlineMs) _aborted = true;
         if (_aborted) return 0;
 
+        if (ply >= MaxPly) return Evaluate(pos, pos.SideToMove);
+
         int me = pos.SideToMove;
         bool inCheck = pos.IsInCheck(me);
-        if (inCheck) depth++; // gia hạn khi bị chiếu
+        if (inCheck && ply < MaxPly / 2) depth++; // gia hạn khi bị chiếu (có giới hạn)
         if (depth <= 0) return Quiescence(pos, alpha, beta, ply, 0);
 
         var moves = new List<Move>(48);

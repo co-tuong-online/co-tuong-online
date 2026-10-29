@@ -42,7 +42,8 @@
     }));
     return;
   }
-  maybeAiTurn();
+  if (G.status !== 'PLAYING') finished(); // mở lại ván đã kết thúc → hiện luôn kết quả
+  else maybeAiTurn();
 
   // ------------------------------------------------------------ hiển thị
 
@@ -131,7 +132,7 @@
     }
   }
 
-  async function maybeAiTurn() {
+  async function maybeAiTurn(attempt = 1) {
     if (G.status !== 'PLAYING' || G.state.sideToMove === G.playerColor) return;
     thinking = true;
     apply(G, null);
@@ -145,12 +146,31 @@
       apply(res.game, res.move, true);
       if (res.move) Sound.play(res.move.captured ? 'capture' : 'move');
       if (res.game.inCheck) setTimeout(() => Sound.play('check'), 150);
-      if (res.game.status !== 'PLAYING') finished();
+      if (res.game.status !== 'PLAYING') return finished();
+      // Phòng hờ: server không trả nước nào mà vẫn tới lượt máy → thử lại thay vì đứng im
+      if (!res.move && res.game.state.sideToMove !== res.game.playerColor) throw new Error('Máy chưa đi được nước nào.');
     } catch (err) {
       thinking = false;
-      UI.error(err);
+      if (attempt < 3) {
+        // Lỗi mạng / server bận: tự thử lại sau 1,5 giây
+        setTimeout(() => maybeAiTurn(attempt + 1), 1500);
+        return;
+      }
       apply(G, null);
+      showAiRetry(err.message);
     }
+  }
+
+  function showAiRetry(message) {
+    const line = $('#statusLine');
+    line.classList.add('attention');
+    line.innerHTML = `<span class="grow">Máy gặp sự cố khi tính nước${message ? ': ' + UI.escape(message) : '.'}</span>
+      <button class="btn small gold" id="aiRetryBtn">Thử lại</button>`;
+    $('#aiRetryBtn').addEventListener('click', async () => {
+      try { apply(await Api.get('/ai-games/' + G.gameId), null); } catch { /* giữ trạng thái cũ */ }
+      if (G.status !== 'PLAYING') return finished();
+      maybeAiTurn();
+    });
   }
 
   async function finished() {

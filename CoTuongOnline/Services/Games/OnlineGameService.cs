@@ -274,6 +274,15 @@ public sealed class OnlineGameService
                 continue;
             }
 
+            // 0) Phòng hờ: thế cờ đã kết thúc theo luật mà ván vẫn đang chạy → kết thúc ngay
+            MatchOutcome? lawful;
+            lock (game.Sync) lawful = game.Match.RefreshOutcome();
+            if (lawful is not null)
+            {
+                await EndGameAsync(game, lawful.Result, lawful.Reason);
+                continue;
+            }
+
             // 1) Hết giờ: server tự phát hiện, không chờ client báo
             int side;
             long elapsed, remaining;

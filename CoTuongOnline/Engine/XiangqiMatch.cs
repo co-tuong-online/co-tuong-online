@@ -177,6 +177,13 @@ public sealed class XiangqiMatch
         return true;
     }
 
+    /// <summary>Tính lại kết quả theo luật từ thế cờ hiện tại (dùng để tự sửa trạng thái lệch).</summary>
+    public MatchOutcome? RefreshOutcome()
+    {
+        Outcome ??= DetectOutcome();
+        return Outcome;
+    }
+
     /// <summary>Kết thúc ván vì lý do bên ngoài luật cờ (đầu hàng, hết giờ, mất kết nối).</summary>
     public void ForceEnd(string result, string reason) => Outcome ??= new MatchOutcome(result, reason);
 
